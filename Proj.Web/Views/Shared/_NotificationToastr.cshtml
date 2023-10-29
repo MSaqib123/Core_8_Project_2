@@ -1,0 +1,56 @@
+﻿@{
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link href="~/toaster/toastr.js/toastr.min.css" rel="stylesheet" />
+    <script src="~/toaster/toastr.js/toastr.min.js"></script>
+    @if (TempData["Success"] != null)
+    {
+        <script>
+            toastr.success('Nice Good work', '@TempData["Success"]')
+        </script>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <script>
+            toastr.error('You are Fool ', '@TempData["Error"]')
+        </script>
+    }
+
+    @if (TempData["info"] != null)
+    {
+        <script>
+            toastr.warning('@TempData["info"]')
+        </script>
+    }
+
+    //----------------- Complete Totorial of  offline Toaster -----------------------
+            //https://github.com/CodeSeven/toastr/blob/master/README.md
+
+}
+
+
+<!--______________________ 2nd ________________________-->
+@{
+     /*
+     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+        @if (TempData["Success"] != null)
+        {
+        <script>
+        toastr.success('@TempData["Success"]');
+        </script>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+        <script>
+        toastr.error('@TempData["Error"]');
+    </script>
+    }
+    */
+}
+
