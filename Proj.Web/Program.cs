@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
+using Proj.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//--------- 2. Register DbContext --------------
+//--------- 2. Testing Services LifeTime --------------
+builder.Services.AddSingleton<ISingleTonGuidService, SingleTonGuidService>();
+builder.Services.AddScoped<IScopedGuidService, ScopedGuidService>();
+builder.Services.AddTransient<ITransientGuidService, TransientGuidService>();
 
 var app = builder.Build();
 
