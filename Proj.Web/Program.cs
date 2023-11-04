@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
+using Proj.DataAccess.Repository;
+using Proj.DataAccess.Repository.IRepository;
 using Proj.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddSingleton<ISingleTonGuidService, SingleTonGuidService>();
 builder.Services.AddScoped<IScopedGuidService, ScopedGuidService>();
 builder.Services.AddTransient<ITransientGuidService, TransientGuidService>();
+
+//--------- 3. Registrering Repositoriers --------------
+builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
 
 var app = builder.Build();
 

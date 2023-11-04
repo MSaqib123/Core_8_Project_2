@@ -2,20 +2,24 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
+using Proj.DataAccess.Repository.IRepository;
 using Proj.Model.Models;
 
 namespace Implement_Project.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        //private readonly ApplicationDbContext _db;
+        private readonly ICategoryRepository _iRepo;
+        //public CategoryController(ApplicationDbContext db)
+        public CategoryController(ICategoryRepository iRepo)
         {
-            _db = db;
+            _iRepo = iRepo;
         }
         public IActionResult Index()
         {
-            var catList = _db.Categories.ToList();
+            //var catList = _db.Categories.ToList();
+            var catList = _iRepo.GetAll();
             return View(catList);
         }
 
@@ -35,7 +39,7 @@ namespace Implement_Project.Controllers
                 ModelState.AddModelError("name","Name and DisplayOrder can not be same");
             }
             //unique name
-            if (_db.Categories.Any(e => e.Name == obj.Name))
+            if (_iRepo.GetAll().Any(e => e.Name == obj.Name))
             {
                 ModelState.AddModelError("name", "Name can not be same");
             }
@@ -48,8 +52,8 @@ namespace Implement_Project.Controllers
             //________ 1. Server Side Validation ____________
             if (ModelState.IsValid)
             {
-                _db.Categories.Add(obj);
-                _db.SaveChanges();
+                _iRepo.Add(obj);
+                _iRepo.SaveChange();
                 TempData["Success"] = "Inserted Successfuly";
                 return RedirectToAction("Index");
             }
@@ -64,16 +68,18 @@ namespace Implement_Project.Controllers
                 return NotFound();
             }
             //___ for only F.K Find ____
-            Category? category1 = _db.Categories.Find(id);
-            //___ withOUt F.k but  get Single Record ____
-            Category? category2 = _db.Categories.FirstOrDefault(u=>u.CategoryId == id);
-            Category? category3 = _db.Categories.Where(x=>x.CategoryId == id).FirstOrDefault();
+            //Category? category1 = _db.Categories.Find(id);
+            ////___ withOUt F.k but  get Single Record ____
+            //Category? category2 = _db.Categories.FirstOrDefault(u=>u.CategoryId == id);
+            //Category? category3 = _db.Categories.Where(x=>x.CategoryId == id).FirstOrDefault();
+            Category? category3 = _iRepo.Get(x=>x.CategoryId == id);
             
-            if (category1 == null)
+
+            if (category3 == null)
             {
                 return NotFound();
             }
-            return View(category1);
+            return View(category3);
         }
         [HttpPost]  
         public IActionResult Edit(Category obj)
@@ -85,7 +91,7 @@ namespace Implement_Project.Controllers
                 ModelState.AddModelError("name", "Name and DisplayOrder can not be same");
             }
             //unique name
-            if (_db.Categories.Any(e => e.Name == obj.Name))
+            if (_iRepo.GetAll().Any(e => e.Name == obj.Name))
             {
                 ModelState.AddModelError("name", "Name can not be same");
             }
@@ -101,8 +107,8 @@ namespace Implement_Project.Controllers
                 //___ for only F.K Find ____
                 if (obj.CategoryId > 0)
                 {
-                    _db.Categories.Update(obj);
-                    _db.SaveChanges();
+                    _iRepo.Update(obj);
+                    _iRepo.SaveChange();
                     TempData["Success"] = "Updated Successfuly";
                     return RedirectToAction("Index");
                 }
@@ -117,9 +123,9 @@ namespace Implement_Project.Controllers
             {
                 return NotFound();
             }
-            Category? category1 = _db.Categories.Find(id);
-            _db.Categories.Remove(category1);
-            _db.SaveChanges();
+            Category? category1 = _iRepo.Get(x=>x.CategoryId == id);
+            _iRepo.Remove(category1);
+            _iRepo.SaveChange();
             return RedirectToAction("Index");
         }
         
