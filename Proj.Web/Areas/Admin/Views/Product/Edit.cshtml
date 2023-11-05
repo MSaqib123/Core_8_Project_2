@@ -1,0 +1,58 @@
+﻿@model Product
+
+<form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
+    <div class="row mt-5">
+
+        <h1>Add Product</h1>
+
+        <input type="hidden" asp-for="Id"/>
+
+
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="Title"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Title">
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="Author"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Author">
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="Discription"></label>
+            <textarea class="form-control" placeholder="" asp-for="Discription" rows="3">
+            </textarea>
+            <span asp-validation-for="Discription" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="ISBN"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="ISBN">
+            <span asp-validation-for="ISBN" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="ListPrice"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="ListPrice">
+            <span asp-validation-for="ListPrice" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="Price"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Price">
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="Price50"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Price50">
+            <span asp-validation-for="Price50" class="text-danger"></span>
+        </div>
+        <div class="col-6 my-4">
+            <label class="form-label" asp-for="Price100"></label>
+            <input type="text" class="form-control" placeholder="" asp-for="Price100">
+            <span asp-validation-for="Price100" class="text-danger"></span>
+        </div>
+
+
+        <div class="col-6 my-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
