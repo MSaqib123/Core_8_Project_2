@@ -29,8 +29,8 @@ namespace Proj.DataAccess.Repository
         public T Get(Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
-            query.First(filter);
-            return query.FirstOrDefault();
+            //query.First(filter);
+            return query.FirstOrDefault(filter);
         }
 
         public IEnumerable<T> GetAll()

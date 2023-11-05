@@ -19,8 +19,17 @@ builder.Services.AddSingleton<ISingleTonGuidService, SingleTonGuidService>();
 builder.Services.AddScoped<IScopedGuidService, ScopedGuidService>();
 builder.Services.AddTransient<ITransientGuidService, TransientGuidService>();
 
-//--------- 3. Registrering Repositoriers --------------
-builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+//--------- 3. Registrering Repositoriers -------------- so many Repository  complex
+//builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+//builder.Services.AddScoped<IProductRepository,ProductRepository>();
+//builder.Services.AddScoped<IProductRepository,ProductRepository>();
+//builder.Services.AddScoped<IProductRepository,ProductRepository>();
+//builder.Services.AddScoped<IProductRepository,ProductRepository>();
+
+
+//--------- 4. Registrering IunitOfWork --------------
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 
 var app = builder.Build();
 
