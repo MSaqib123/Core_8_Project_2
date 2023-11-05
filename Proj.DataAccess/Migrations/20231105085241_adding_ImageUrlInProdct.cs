@@ -53,7 +53,7 @@ namespace Proj.DataAccess.Migrations
                 value: "");
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc /> 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(

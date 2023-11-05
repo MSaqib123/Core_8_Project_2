@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository.IRepository;
 using Proj.Models;
+using Proj.Models.ViewModel;
 
 namespace Proj.Web.Areas.Admin.Controllers
 {
@@ -25,20 +27,42 @@ namespace Proj.Web.Areas.Admin.Controllers
         public IActionResult Create()
         {
             Product obj = new Product();
-            return View(obj);
+            IEnumerable<SelectListItem> categoryList = _iUnit.Category.GetAll().Select(x=>new SelectListItem 
+                { 
+                    Text = x.Name,
+                    Value = x.CategoryId.ToString()
+                });
+
+            //________ ViewBag ___________
+            //ViewBag.CategoryList = categoryList;
+
+            //________ ViewData ___________
+            //ViewData["CategoryList"] = categoryList;
+
+            //________ ViewModel ___________
+            ProductVM vm = new ProductVM();
+            vm.categoryList_obj = categoryList;
+            vm.Product_obj = obj;
+
+            //return View(obj);
+            return View(vm);
         }
         
         [HttpPost]
-        public IActionResult Create(Product obj)
+        public IActionResult Create(ProductVM vm)
         {
             if (ModelState.IsValid)
             {
-                _iUnit.Product.Add(obj);
+                if (vm.Product_obj.ImageUrl == null)
+                {
+                    vm.Product_obj.ImageUrl = "";
+                }
+                _iUnit.Product.Add(vm.Product_obj);
                 _iUnit.SaveChange();
                 TempData["Success"] = "Inserted Successfuly";
                 return RedirectToAction("Index");
             }
-            return View(obj);
+            return View(vm);
         }
 
         [HttpGet]
@@ -53,23 +77,38 @@ namespace Proj.Web.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            return View(obj);
+
+            IEnumerable<SelectListItem> categoryList = _iUnit.Category.GetAll().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.CategoryId.ToString()
+            });
+
+            ProductVM vm = new ProductVM();
+            vm.categoryList_obj = categoryList;
+            vm.Product_obj = obj;
+
+            return View(vm);
         }
         
         [HttpPost]
-        public IActionResult Edit(Product obj)
+        public IActionResult Edit(ProductVM vm)
         {
             if (ModelState.IsValid)
             {
-                if (obj.Id > 0)
+                if (vm.Product_obj.Id > 0)
                 {
-                    _iUnit.Product.Update(obj);
+                    if (vm.Product_obj.ImageUrl == null)
+                    {
+                        vm.Product_obj.ImageUrl = "";
+                    }
+                    _iUnit.Product.Update(vm.Product_obj);
                     _iUnit.SaveChange();
                     TempData["Success"] = "Updated Successfuly";
                     return RedirectToAction("Index");
                 }
             }
-            return View(obj);
+            return View(vm);
         }
 
         [HttpGet]

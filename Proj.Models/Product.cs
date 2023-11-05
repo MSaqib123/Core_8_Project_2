@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -39,10 +40,17 @@ namespace Proj.Models
         [Range(1,1000)]
         public double Price100 { get; set; }
 
+
+        [Display(Name = "Product Category")]
+        [ValidateNever]
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
+        [ValidateNever]
         public Category Category { get; set; }
 
+
+        [ValidateNever]
+        [Display(Name = "Product Image")]
         public string ImageUrl { get; set; }
 
     }
