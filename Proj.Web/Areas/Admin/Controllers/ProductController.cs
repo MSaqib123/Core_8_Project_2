@@ -260,6 +260,30 @@ namespace Proj.Web.Areas.Admin.Controllers
             var list = _iUnit.Product.GetAll(includeProperties: "Category").ToList();
             return Json(new {data= list });
         }
+
+
+        [HttpGet]
+        public IActionResult DeleteRecord(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Product? obj = _iUnit.Product.Get(x => x.Id == id);
+            if (obj == null)
+            {
+                return Json(new {success=false,message="Error while deleting"});
+            }
+            //__________ Delete Old Image _________
+            string wwwRootPath = _iWeb.WebRootPath;
+            DeleteOldImage(obj.ImageUrl, wwwRootPath);
+
+            _iUnit.Product.Remove(obj);
+            _iUnit.SaveChange();
+
+            return Json(new { success = true, message = "Deleted Successfully" });
+        }
+
         #endregion
     }
 }

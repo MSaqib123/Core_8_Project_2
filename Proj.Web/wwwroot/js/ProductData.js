@@ -18,7 +18,7 @@ $(document).ready(function () {
                     "render": function (data) {
                         return `
                             <a href="/Admin/Product/Upsert?id=${data}" class="btn btn-primary">Edit</a>
-                            <a href="/Admin/Product/Delete?id=${data}" class="btn btn-danger">Delete</a>
+                            <a href="/Admin/Product/DeleteRecord?id=${data}" class="btn btn-danger">Delete</a>
                         `}
                 },
             ]
