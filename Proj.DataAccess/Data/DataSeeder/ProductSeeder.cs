@@ -23,7 +23,8 @@ namespace Proj.DataAccess.Data.DataSeeder
                     ListPrice = 89,
                     Price = 80,
                     Price50 = 75,
-                    Price100 = 80
+                    Price100 = 80,
+                    CategoryId = 16
                 },
                 new Product
                 {
@@ -36,6 +37,7 @@ namespace Proj.DataAccess.Data.DataSeeder
                     Price = 90,
                     Price50 = 85,
                     Price100 = 80
+                    ,CategoryId = 16
                 },
                 new Product
                 {
@@ -47,7 +49,8 @@ namespace Proj.DataAccess.Data.DataSeeder
                     ListPrice = 99,
                     Price = 90,
                     Price50 = 85,
-                    Price100 = 80
+                    Price100 = 80,
+                    CategoryId = 16
                 },
                 new Product
                 {
@@ -59,7 +62,8 @@ namespace Proj.DataAccess.Data.DataSeeder
                     ListPrice = 99,
                     Price = 90,
                     Price50 = 85,
-                    Price100 = 80
+                    Price100 = 80,
+                    CategoryId = 16
                 },
                 new Product
                 {
@@ -71,7 +75,8 @@ namespace Proj.DataAccess.Data.DataSeeder
                     ListPrice = 99,
                     Price = 90,
                     Price50 = 85,
-                    Price100 = 80
+                    Price100 = 80,
+                    CategoryId = 16
                 }
               );
         }
