@@ -50,6 +50,13 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    //_____ For simpel Route ______
+    //pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    //_____ For AreaBase Route ______
+    //pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+    //_____ For Fixedd AreaBase Route ______
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

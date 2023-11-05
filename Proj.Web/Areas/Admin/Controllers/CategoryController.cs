@@ -5,7 +5,7 @@ using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository.IRepository;
 using Proj.Model.Models;
 
-namespace Implement_Project.Controllers
+namespace Proj.Web.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
@@ -41,7 +41,7 @@ namespace Implement_Project.Controllers
             //display order
             if (obj.Name == obj.DisplayOrder.ToString())
             {
-                ModelState.AddModelError("name","Name and DisplayOrder can not be same");
+                ModelState.AddModelError("name", "Name and DisplayOrder can not be same");
             }
             //unique name
             //if (_iRepo.GetAll().Any(e => e.Name == obj.Name))
@@ -68,10 +68,10 @@ namespace Implement_Project.Controllers
             return View(obj);
         }
 
-        [HttpGet] 
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if (id == null || id==0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
@@ -81,8 +81,8 @@ namespace Implement_Project.Controllers
             //Category? category2 = _db.Categories.FirstOrDefault(u=>u.CategoryId == id);
             //Category? category3 = _db.Categories.Where(x=>x.CategoryId == id).FirstOrDefault();
             //Category? category3 = _iRepo.Get(x=>x.CategoryId == id);
-            Category? category3 = _iUnit.Category.Get(x=>x.CategoryId == id);
-            
+            Category? category3 = _iUnit.Category.Get(x => x.CategoryId == id);
+
 
             if (category3 == null)
             {
@@ -90,7 +90,7 @@ namespace Implement_Project.Controllers
             }
             return View(category3);
         }
-        [HttpPost]  
+        [HttpPost]
         public IActionResult Edit(Category obj)
         {
             //_______________ 2. Customer Validation ________________
@@ -136,7 +136,7 @@ namespace Implement_Project.Controllers
                 return NotFound();
             }
             //Category? category1 = _iRepo.Get(x=>x.CategoryId == id);
-            Category? category1 = _iUnit.Category.Get(x=>x.CategoryId == id);
+            Category? category1 = _iUnit.Category.Get(x => x.CategoryId == id);
             //_iRepo.Remove(category1);
             _iUnit.Category.Remove(category1);
             //_iRepo.SaveChange();
@@ -144,6 +144,6 @@ namespace Implement_Project.Controllers
             TempData["Success"] = "Deleted Successfuly";
             return RedirectToAction("Index");
         }
-        
+
     }
 }

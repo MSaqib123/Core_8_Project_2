@@ -2,7 +2,7 @@
 using Proj.Web.Services;
 using System.Text;
 
-namespace Proj.Web.Controllers
+namespace Proj.Web.Areas.Customer.Controllers
 {
     public class ServicesLifeTimeController : Controller
     {
@@ -38,16 +38,16 @@ namespace Proj.Web.Controllers
         {
             StringBuilder str = new StringBuilder();
             str.Append("__________ SingleTon LifeCycle (same for End Of Project) _________________\n\n");
-            str.Append($"SingleTon 1 : { _SingleTone1.GetGuild()} \n" );
-            str.Append($"SingleTon 2 : { _SingleTone2.GetGuild()} \n\n" );
+            str.Append($"SingleTon 1 : {_SingleTone1.GetGuild()} \n");
+            str.Append($"SingleTon 2 : {_SingleTone2.GetGuild()} \n\n");
 
             str.Append("__________ Scope LifeCycle (same for Per Request) _________________\n\n");
-            str.Append($"Scope 1 : {_Scope1.GetGuild()} \n" );
-            str.Append($"Scope 2 : { _Scope2.GetGuild()} \n\n" );
+            str.Append($"Scope 1 : {_Scope1.GetGuild()} \n");
+            str.Append($"Scope 2 : {_Scope2.GetGuild()} \n\n");
 
             str.Append("__________ Transient L.C (Change with Every Request) _________________\n\n");
-            str.Append($"Transient 1 : { _Trans1.GetGuild()} \n" );
-            str.Append($"Transient 2 : { _Trans2.GetGuild()} \n" );
+            str.Append($"Transient 1 : {_Trans1.GetGuild()} \n");
+            str.Append($"Transient 2 : {_Trans2.GetGuild()} \n");
 
             return Ok(str.ToString());
         }
