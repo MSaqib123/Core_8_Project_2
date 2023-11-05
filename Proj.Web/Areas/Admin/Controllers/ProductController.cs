@@ -23,15 +23,17 @@ namespace Proj.Web.Areas.Admin.Controllers
             return View(catList);
         }
 
+        //_______________________ Insert, Update _______________________
+        #region Seprate : Insert,Update
         [HttpGet]
         public IActionResult Create()
         {
             Product obj = new Product();
-            IEnumerable<SelectListItem> categoryList = _iUnit.Category.GetAll().Select(x=>new SelectListItem 
-                { 
-                    Text = x.Name,
-                    Value = x.CategoryId.ToString()
-                });
+            IEnumerable<SelectListItem> categoryList = _iUnit.Category.GetAll().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.CategoryId.ToString()
+            });
 
             //________ ViewBag ___________
             //ViewBag.CategoryList = categoryList;
@@ -47,7 +49,7 @@ namespace Proj.Web.Areas.Admin.Controllers
             //return View(obj);
             return View(vm);
         }
-        
+
         [HttpPost]
         public IActionResult Create(ProductVM vm)
         {
@@ -90,7 +92,7 @@ namespace Proj.Web.Areas.Admin.Controllers
 
             return View(vm);
         }
-        
+
         [HttpPost]
         public IActionResult Edit(ProductVM vm)
         {
@@ -110,6 +112,72 @@ namespace Proj.Web.Areas.Admin.Controllers
             }
             return View(vm);
         }
+
+        #endregion
+
+        //_______________________ Upsert _______________________
+        #region Together : Insert,Update
+        [HttpGet]
+        public IActionResult Upsert(int? id)
+        {
+            ProductVM vm = new ProductVM();
+            Product obj = new Product();
+
+            IEnumerable<SelectListItem> categoryList = _iUnit.Category.GetAll().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.CategoryId.ToString()
+            });
+
+            if (id> 0)
+            {
+                obj = _iUnit.Product.Get(x => x.Id == id);
+                if (obj == null)
+                {
+                    return NotFound();
+                }
+                vm.categoryList_obj = categoryList;
+                vm.Product_obj = obj;
+            }
+            else
+            {
+                vm.categoryList_obj = categoryList;
+                vm.Product_obj = obj;
+            }
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Upsert(ProductVM vm, IFormFile? file)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.Product_obj.Id > 0 )
+                {
+                    if (vm.Product_obj.ImageUrl == null)
+                    {
+                        vm.Product_obj.ImageUrl = "";
+                    }
+                    _iUnit.Product.Update(vm.Product_obj);
+                    _iUnit.SaveChange();
+                    TempData["Success"] = "Updated Successfuly";
+                }
+                else
+                {
+                    if (vm.Product_obj.ImageUrl == null)
+                    {
+                        vm.Product_obj.ImageUrl = "";
+                    }
+                    _iUnit.Product.Add(vm.Product_obj);
+                    _iUnit.SaveChange();
+                    TempData["Success"] = "Inserted Successfuly";
+                }
+                return RedirectToAction("Index");
+            }
+            TempData["Success"] = "";
+            return View(vm);
+        }
+        #endregion
 
         [HttpGet]
         public IActionResult Delete(int? id)
