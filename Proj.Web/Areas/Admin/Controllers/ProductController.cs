@@ -159,15 +159,23 @@ namespace Proj.Web.Areas.Admin.Controllers
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath,@"Images\Products");
+
+                    #region badWay
                     //if (vm.Product_obj.ImageUrl != null)
-                    if (!string.IsNullOrEmpty(vm.Product_obj.ImageUrl))
-                    {
-                        var oldImagePath = Path.Combine(wwwRootPath,vm.Product_obj.ImageUrl.TrimStart('\\'));
-                        if (System.IO.File.Exists(oldImagePath))
-                        {
-                            System.IO.File.Delete(oldImagePath);
-                        }
-                    }
+                    //if (!string.IsNullOrEmpty(vm.Product_obj.ImageUrl))
+                    //{
+                    //    var oldImagePath = Path.Combine(wwwRootPath,vm.Product_obj.ImageUrl.TrimStart('\\'));
+                    //    if (System.IO.File.Exists(oldImagePath) && oldImagePath != "Images\\NoImage.jpg")
+                    //    {
+                    //        System.IO.File.Delete(oldImagePath);
+                    //    }
+                    //}
+                    #endregion  
+
+                    //__________ Delete Old Image _________
+                    DeleteOldImage(vm.Product_obj.ImageUrl,wwwRootPath);
+
+                    //__________ Saveing New Image _________
                     using (var fileStream = new FileStream(Path.Combine(productPath,fileName) , FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -177,6 +185,10 @@ namespace Proj.Web.Areas.Admin.Controllers
                 
                 if (vm.Product_obj.Id > 0 )
                 {
+                    if (vm.Product_obj.ImageUrl == null && file == null)
+                    {
+                        vm.Product_obj.ImageUrl = "\\Images\\NoImage.jpg";
+                    }
                     _iUnit.Product.Update(vm.Product_obj);
                     TempData["Success"] = "Updated Successfuly";
                 }
@@ -205,6 +217,7 @@ namespace Proj.Web.Areas.Admin.Controllers
             }
             
         }
+
         #endregion
 
         [HttpGet]
@@ -215,11 +228,27 @@ namespace Proj.Web.Areas.Admin.Controllers
                 return NotFound();
             }
             Product? obj = _iUnit.Product.Get(x => x.Id == id);
+
+            //__________ Delete Old Image _________
+            string wwwRootPath = _iWeb.WebRootPath;
+            DeleteOldImage(obj.ImageUrl, wwwRootPath);
+
             _iUnit.Product.Remove(obj);
             _iUnit.SaveChange();
             TempData["Success"] = "Deleted Successfuly";
             return RedirectToAction("Index");
         }
 
+        private void DeleteOldImage(string Image, string wwwRootPath)
+        {
+            if (!string.IsNullOrEmpty(Image))
+            {
+                var oldImagePath = Path.Combine(wwwRootPath, Image.TrimStart('\\'));
+                if (System.IO.File.Exists(oldImagePath) && oldImagePath != "Images\\NoImage.jpg")
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+        }
     }
 }
