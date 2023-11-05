@@ -21,7 +21,7 @@ namespace Proj.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var catList = _iUnit.Product.GetAll();
+            var catList = _iUnit.Product.GetAll(includeProperties:"Category").ToList();
             return View(catList);
         }
 
