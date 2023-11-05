@@ -73,10 +73,13 @@
                 <div class="col-6 my-4">
                     <label class="form-label" asp-for="Product_obj.ImageUrl">Product Image</label>
                     <input type="hidden" asp-for="Product_obj.ImageUrl">
-                    <input type="file" class="form-control" asp-for="Product_obj.ImageUrl">
+                    <input type="file" class="form-control" name="file">
                 </div>
 
             </div>
+        </div>
+        <div class="col-3">
+            <img class="img-fluid" src="@Model.Product_obj.ImageUrl"/>
         </div>
 
 

@@ -13,9 +13,11 @@ namespace Proj.Web.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _iUnit;
-        public ProductController(IUnitOfWork iUnit)
+        private readonly IWebHostEnvironment _iWeb;
+        public ProductController(IUnitOfWork iUnit, IWebHostEnvironment iWeb)
         {
             _iUnit = iUnit;
+            _iWeb = iWeb;
         }
         public IActionResult Index()
         {
@@ -152,22 +154,26 @@ namespace Proj.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _iWeb.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string productPath = Path.Combine(wwwRootPath,@"Images\Products");
+                    using (var fileStream = new FileStream(Path.Combine(productPath,fileName) , FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    vm.Product_obj.ImageUrl = @"\Images\Products\" + fileName;
+                }
+                
                 if (vm.Product_obj.Id > 0 )
                 {
-                    if (vm.Product_obj.ImageUrl == null)
-                    {
-                        vm.Product_obj.ImageUrl = "";
-                    }
                     _iUnit.Product.Update(vm.Product_obj);
                     _iUnit.SaveChange();
                     TempData["Success"] = "Updated Successfuly";
                 }
                 else
                 {
-                    if (vm.Product_obj.ImageUrl == null)
-                    {
-                        vm.Product_obj.ImageUrl = "";
-                    }
                     _iUnit.Product.Add(vm.Product_obj);
                     _iUnit.SaveChange();
                     TempData["Success"] = "Inserted Successfuly";
