@@ -21,8 +21,8 @@ namespace Proj.Web.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
-            var catList = _iUnit.Product.GetAll(includeProperties:"Category").ToList();
-            return View(catList);
+            var list = _iUnit.Product.GetAll(includeProperties:"Category").ToList();
+            return View(list);
         }
 
         //_______________________ Insert, Update _______________________
@@ -250,5 +250,16 @@ namespace Proj.Web.Areas.Admin.Controllers
                 }
             }
         }
+
+
+        //_______________________ APis _______________________
+        #region Apis work
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var list = _iUnit.Product.GetAll(includeProperties: "Category").ToList();
+            return Json(new {data= list });
+        }
+        #endregion
     }
 }
