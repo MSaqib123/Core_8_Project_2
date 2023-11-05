@@ -26,7 +26,6 @@ builder.Services.AddTransient<ITransientGuidService, TransientGuidService>();
 //builder.Services.AddScoped<IProductRepository,ProductRepository>();
 //builder.Services.AddScoped<IProductRepository,ProductRepository>();
 
-
 //--------- 4. Registrering IunitOfWork --------------
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
