@@ -1,6 +1,6 @@
 ﻿using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository.IRepository;
-using Proj.Model.Models;
+using Proj.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

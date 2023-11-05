@@ -1,4 +1,4 @@
-﻿using Proj.Model.Models;
+﻿using Proj.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Proj.DataAccess.Data.DataSeeder

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository.IRepository;
-using Proj.Model.Models;
+using Proj.Models;
 
 namespace Proj.Web.Areas.Admin.Controllers
 {

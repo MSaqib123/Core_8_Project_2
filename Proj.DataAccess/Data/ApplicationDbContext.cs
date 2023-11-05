@@ -1,6 +1,6 @@
-﻿using Proj.Model.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data.DataSeeder;
+using Proj.Models;
 
 namespace Proj.DataAccess.Data
 {
@@ -11,6 +11,7 @@ namespace Proj.DataAccess.Data
 
         }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
 
 
         //__________________ 1. Data Seeding ____________________________
@@ -32,7 +33,9 @@ namespace Proj.DataAccess.Data
         {
             //________ Category Seeder ________________
             CategorySeeder.Seed(modelBuilder);
-            
+
+            //________ Product Seeder ________________
+            ProductSeeder.Seed(modelBuilder);
         }
     }
 }

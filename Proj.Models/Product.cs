@@ -14,6 +14,8 @@ namespace Proj.Models
         [Required]
         public string Title { get; set; }
         [Required]
+        public string Discription { get; set; }
+        [Required]
         public string ISBN { get; set; }
         public string Author { get; set; }
         [Required]
