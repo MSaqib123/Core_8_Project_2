@@ -159,6 +159,15 @@ namespace Proj.Web.Areas.Admin.Controllers
                 {
                     string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                     string productPath = Path.Combine(wwwRootPath,@"Images\Products");
+                    //if (vm.Product_obj.ImageUrl != null)
+                    if (!string.IsNullOrEmpty(vm.Product_obj.ImageUrl))
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath,vm.Product_obj.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
                     using (var fileStream = new FileStream(Path.Combine(productPath,fileName) , FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -169,19 +178,32 @@ namespace Proj.Web.Areas.Admin.Controllers
                 if (vm.Product_obj.Id > 0 )
                 {
                     _iUnit.Product.Update(vm.Product_obj);
-                    _iUnit.SaveChange();
                     TempData["Success"] = "Updated Successfuly";
                 }
                 else
                 {
+                    if (vm.Product_obj.ImageUrl == null)
+                    {
+                        vm.Product_obj.ImageUrl = "\\Images\\NoImage.jpg";
+                    }
                     _iUnit.Product.Add(vm.Product_obj);
-                    _iUnit.SaveChange();
                     TempData["Success"] = "Inserted Successfuly";
                 }
+                _iUnit.SaveChange();
                 return RedirectToAction("Index");
             }
-            TempData["Success"] = "";
-            return View(vm);
+            else
+            {
+                TempData["Success"] = "";
+                IEnumerable<SelectListItem> categoryList = _iUnit.Category.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.CategoryId.ToString()
+                });
+                vm.categoryList_obj = categoryList;
+                return View(vm);
+            }
+            
         }
         #endregion
 
