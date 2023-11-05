@@ -262,12 +262,12 @@ namespace Proj.Web.Areas.Admin.Controllers
         }
 
 
-        [HttpGet]
+        [HttpDelete]
         public IActionResult DeleteRecord(int? id)
         {
             if (id == null || id == 0)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Error while deleting" });
             }
             Product? obj = _iUnit.Product.Get(x => x.Id == id);
             if (obj == null)
