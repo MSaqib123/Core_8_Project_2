@@ -68,4 +68,7 @@ app.MapControllerRoute(
     //_____ For Fixedd AreaBase Route ______
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
+//_____ For Identity Razar Pages _______
+app.MapRazorPages();
+
 app.Run();
