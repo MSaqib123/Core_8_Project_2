@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository;
 using Proj.DataAccess.Repository.IRepository;
+using Proj.Utility;
 using Proj.Web.Services;
 
 
@@ -16,10 +18,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>
-    (
-        //options => options.SignIn.RequireConfirmedAccount = true
-    )
+//____ only Identity ____
+/*builder.Services.AddDefaultIdentity<IdentityUser>()//options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();*/
+
+//____ only Identity ____
+builder.Services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
@@ -27,6 +31,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>
 builder.Services.AddSingleton<ISingleTonGuidService, SingleTonGuidService>();
 builder.Services.AddScoped<IScopedGuidService, ScopedGuidService>();
 builder.Services.AddTransient<ITransientGuidService, TransientGuidService>();
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+
 
 //--------- 3. Registrering Repositoriers -------------- so many Repository  complex
 //builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
