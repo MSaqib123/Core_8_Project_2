@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data.DataSeeder;
 using Proj.Models;
 
 namespace Proj.DataAccess.Data
 {
-    public class ApplicationDbContext:DbContext
+    public class ApplicationDbContext:IdentityDbContext//DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option):base(option)
         {
@@ -31,6 +32,9 @@ namespace Proj.DataAccess.Data
         //__________________ 1. Data Seeding in Seprate Class ____________________________
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //________ Identity DbContext Required This ________________
+            base.OnModelCreating(modelBuilder);
+
             //________ Category Seeder ________________
             CategorySeeder.Seed(modelBuilder);
 
