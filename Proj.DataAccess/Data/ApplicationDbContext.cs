@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data.DataSeeder;
 using Proj.Models;
 
 namespace Proj.DataAccess.Data
 {
-    public class ApplicationDbContext:IdentityDbContext//DbContext
+    public class ApplicationDbContext:IdentityDbContext<IdentityUser>//DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option):base(option)
         {

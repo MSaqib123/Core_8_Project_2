@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository;
 using Proj.DataAccess.Repository.IRepository;
 using Proj.Web.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,13 @@ builder.Services.AddControllersWithViews();
 //--------- 1. Register DbContext --------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>
+    (
+        //options => options.SignIn.RequireConfirmedAccount = true
+    )
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 
 //--------- 2. Testing Services LifeTime --------------
 builder.Services.AddSingleton<ISingleTonGuidService, SingleTonGuidService>();
@@ -45,6 +54,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
