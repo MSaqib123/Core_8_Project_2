@@ -43,7 +43,7 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 //____ only Identity ____
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddRazorPages();
 #endregion
