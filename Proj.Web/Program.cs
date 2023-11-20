@@ -41,9 +41,18 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 /*builder.Services.AddDefaultIdentity<IdentityUser>()//options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();*/
 
-//____ only Identity ____
+//__ only Identity __
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+//__ Identity Path __
+builder.Services.ConfigureApplicationCookie(option =>
+{
+    option.LoginPath = $"/Identity/Account/Login";
+    option.LogoutPath = $"/Identity/Account/Logout";
+    option.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
+
 
 builder.Services.AddRazorPages();
 #endregion
