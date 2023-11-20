@@ -7,7 +7,7 @@ using Proj.DataAccess.Repository.IRepository;
 using Proj.Utility;
 using Proj.Web.Services;
 
-
+#region ------------------- Builder -------------------
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,14 +17,6 @@ builder.Services.AddControllersWithViews();
 //--------- 1. Register DbContext --------------
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-//____ only Identity ____
-/*builder.Services.AddDefaultIdentity<IdentityUser>()//options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();*/
-
-//____ only Identity ____
-builder.Services.AddIdentity<IdentityUser,IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
 //--------- 2. Testing Services LifeTime --------------
@@ -44,9 +36,22 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 //--------- 4. Registrering IunitOfWork --------------
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
+//--------- 5. Adding Identity --------------
+//____ only Identity ____
+/*builder.Services.AddDefaultIdentity<IdentityUser>()//options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<ApplicationDbContext>();*/
+
+//____ only Identity ____
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddRazorPages();
+#endregion
+
+
+#region ------------------- App -------------------
 
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -63,6 +68,9 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//_____ For Identity Razar Pages _______
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "default",
     //_____ For simpel Route ______
@@ -74,7 +82,6 @@ app.MapControllerRoute(
     //_____ For Fixedd AreaBase Route ______
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
-//_____ For Identity Razar Pages _______
-app.MapRazorPages();
-
 app.Run();
+
+#endregion
