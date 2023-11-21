@@ -53,5 +53,6 @@ namespace Proj.Models
         [Display(Name = "Product Image")]
         public string ImageUrl { get; set; }
 
+
     }
 }
