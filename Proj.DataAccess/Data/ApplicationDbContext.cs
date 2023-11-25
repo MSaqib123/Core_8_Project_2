@@ -15,6 +15,7 @@ namespace Proj.DataAccess.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
 
         //__________________ 1. Data Seeding ____________________________
@@ -42,6 +43,9 @@ namespace Proj.DataAccess.Data
 
             //________ Product Seeder ________________
             ProductSeeder.Seed(modelBuilder);
+
+            //________ Company Seeder ________________
+            CompanySeeder.Seed(modelBuilder);
         }
     }
 }
