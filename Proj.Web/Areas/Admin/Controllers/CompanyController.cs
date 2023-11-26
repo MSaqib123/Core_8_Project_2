@@ -1,14 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Proj.DataAccess.Data;
 using Proj.DataAccess.Repository.IRepository;
 using Proj.Models;
-using Proj.Models.ViewModel;
 using Proj.Utility;
-using System.Data;
 
 namespace Proj.Web.Areas.Admin.Controllers
 {
@@ -17,12 +11,11 @@ namespace Proj.Web.Areas.Admin.Controllers
     public class CompanyController : Controller
     {
         private readonly IUnitOfWork _iUnit;
-        private readonly IWebHostEnvironment _iWeb;
-        public CompanyController(IUnitOfWork iUnit, IWebHostEnvironment iWeb)
+        public CompanyController(IUnitOfWork iUnit)
         {
             _iUnit = iUnit;
-            _iWeb = iWeb;
         }
+        [HttpGet]
         public IActionResult Index()
         {
             var list = _iUnit.Company.GetAll();

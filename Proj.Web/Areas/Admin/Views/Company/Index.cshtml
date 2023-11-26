@@ -1,4 +1,6 @@
 ﻿@model List<Company>
+
+<script src="~/js/companydata.js"></script>
 <div class="container">
 
     <div class="d-flex justify-content-between align-content-center align-items-center my-4 ">
@@ -17,23 +19,10 @@
             </tr>
         </thead>
         <tbody>
-            @{
-                //foreach (var item in Model)
-                //{
-                //    <tr>
-                //        <td>@item.Id</td>
-                //        <td>@item.Title</td>
-                //        <td>@item.Author</td>
-                //        <td>@item.ISBN</td>
-                //        <td>@item.Price</td>
-                //        <td>@item.Category.Name</td>
-                        //<td>
-                        //    <a class="btn btn-primary" asp-controller="Product" asp-action="Upsert" asp-route-id="@item.Id">Edit</a>
-                        //    <a class="btn btn-danger" asp-controller="Product" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        //</td>
-                //    </tr>
-                //}
-            }
         </tbody>
     </table>
 </div>
+
+
+
+
