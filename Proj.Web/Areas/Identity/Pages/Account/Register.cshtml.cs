@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Proj.DataAccess.Repository.IRepository;
 using Proj.Models;
 using Proj.Utility;
 
@@ -35,14 +36,17 @@ namespace Proj.Web.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         //___ Adding role ___
         private readonly RoleManager<IdentityRole> _roleManager;
-
+        //___ Adding UniteOfWork ___
+        private IUnitOfWork _iUnit;
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IUnitOfWork iUnit)
+            
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -51,6 +55,7 @@ namespace Proj.Web.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _iUnit = iUnit;
         }
 
         /// <summary>
@@ -117,6 +122,15 @@ namespace Proj.Web.Areas.Identity.Pages.Account
             public string? Role { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            /// <summary>
+            ///     This is List of Role to Show in View
+            /// </summary>
+            /// 
+            public int? CompanyId { get; set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+
         }
 
 
@@ -130,14 +144,20 @@ namespace Proj.Web.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Company)).GetAwaiter().GetResult();
             }
-            //__________ RoleList ___________
             Input = new()
             {
+                //__________ RoleList ___________
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
-                })
+                }),
+                //__________ RoleList ___________
+                CompanyList = _iUnit.Company.GetAll().Select(i=> new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
             };
 
             ReturnUrl = returnUrl;
@@ -155,6 +175,10 @@ namespace Proj.Web.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.Name = Input.Name;
+                if (Input.Role == SD.Role_Company)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

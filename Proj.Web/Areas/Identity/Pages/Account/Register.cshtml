@@ -50,6 +50,12 @@
                         </select>
                     </div>
 
+                    <div class="form mb-3">
+                        <select asp-for="Input.CompanyId" asp-items="@Model.Input.CompanyList" class="form-select">
+                            <option>---- Select Company ----</option>
+                        </select>
+                    </div>
+
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;" type="submit">
