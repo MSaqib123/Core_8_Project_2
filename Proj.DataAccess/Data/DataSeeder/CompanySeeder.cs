@@ -25,7 +25,7 @@ namespace Proj.DataAccess.Data.DataSeeder
                 },
                 new Company
                 { 
-                    Id=1,
+                    Id=2,
                     Name = "Company2",
                     City = "karachi",
                     State="Pakistan",
@@ -35,7 +35,7 @@ namespace Proj.DataAccess.Data.DataSeeder
                 },
                 new Company
                 { 
-                    Id=1,
+                    Id=3,
                     Name = "Company3",
                     City = "karachi",
                     State="Pakistan",
@@ -45,7 +45,7 @@ namespace Proj.DataAccess.Data.DataSeeder
                 },
                 new Company
                 { 
-                    Id=1,
+                    Id=4,
                     Name = "Company5",
                     City = "karachi",
                     State="Pakistan",
@@ -55,7 +55,7 @@ namespace Proj.DataAccess.Data.DataSeeder
                 },
                 new Company
                 { 
-                    Id=1,
+                    Id=5,
                     Name = "Company6",
                     City = "karachi",
                     State="Pakistan",
